@@ -27,7 +27,7 @@ WACV: Winter Conference on Applications of Computer Vision, 2023
 
 This repository contains the official PyTorch implementation of the following paper.
 
-> [**A Simple and Powerful Global Optimization for Unsupervised Video Object Segmentation**](https://arxiv.org/abs/2007.02355),            
+> [**A Simple and Powerful Global Optimization for Unsupervised Video Object Segmentation**](https://arxiv.org/abs/2209.09341),            
 > [Georgy Ponimatkin](http://ponimatkin.github.io), [Nermin Samet](https://nerminsamet.github.io), [Yang Xiao](https://youngxiao13.github.io), [Yuming Du](https://dulucas.github.io/), [Renaud Marlet](http://imagine.enpc.fr/~marletr/), [Vincent Lepetit](https://vincentlepetit.github.io),        
 > *WACV 2023. ([arXiv pre-print](https://arxiv.org/abs/2209.09341), [Project page](https://ponimatkin.github.io/ssl-vos/index.html))*  
  
