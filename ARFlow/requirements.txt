@@ -1,0 +1,7 @@
+imageio
+matplotlib
+scikit-image
+easydict
+
+path.py
+fast_slic
