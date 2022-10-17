@@ -49,7 +49,7 @@ python prepare_data.py
 ```
 
 Please refer to [ARFlow](https://github.com/lliuz/ARFlow) and [RAFT](https://github.com/princeton-vl/RAFT) repositories 
-in order to prepare your environment.
+in order to prepare rest of your environment.
 
 ## Running the pipeline
 Our approach requires three steps to run produce segmentations. At first, extract DINO features and optical flows by via
