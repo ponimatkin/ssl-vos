@@ -38,7 +38,6 @@ conda env create --name ssl-vos python=3.8 pip
 conda install pytorch torchvision torchaudio cudatoolkit=11.6 -c pytorch -c conda-forge
 pip install scikit-learn opencv-python fast_slic imageio matplotlib scikit-image easydict path.py
 
-git clone https://github.com/ylabbe/bullet3.git && cd bullet3 
 python setup.py build
 python setup.py install
 ```
@@ -55,7 +54,7 @@ in order to prepare rest of your environment.
 Our approach requires three steps to run produce segmentations. At first, extract DINO features and optical flows by via
 ```
 python extract_dino_features.py --dataset davis
-python generate_flow_arflow.py --dataset davis --step 1 --raw
+python generate_flow_arflow.py --dataset davis --step 1
 ```
 
 The second step consists of extracting the initial eigenvectors, which can be done by

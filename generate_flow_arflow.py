@@ -10,9 +10,9 @@ from ARFlow.transforms import sep_transforms
 
 from ARFlow.utils.torch_utils import restore_model
 from ARFlow.models.pwclite import PWCLite
-from config import DATA_PATH, MAX_FLOW_VAL
-from utils.flow_utils import quantize_flow
 from ARFlow.utils.warp_utils import flow_warp
+from config import DATA_PATH
+
 
 
 def calculate_binary_flow_weights(org_img, warped_img, thr_value, thr_type):
@@ -87,12 +87,7 @@ def generate_arflow_flow(args):
 
                 binary_weights = calculate_binary_flow_weights(image1, re_image1, args.thr_value, args.thr_type)
                 flow = flow * binary_weights[:,:,None]
-                if args.raw:
-                    np.save(flow_folder / imfile1.with_suffix('.npy').name, flow)
-                else:
-                    dx, dy = quantize_flow(flow, max_val=MAX_FLOW_VAL, norm=False)
-                    flow = np.stack([dx, dy, np.zeros(dx.shape)], axis=-1)
-                    cv2.imwrite((flow_folder / imfile1.name).as_posix(), flow[:, :, [2, 1, 0]])
+                np.save(flow_folder / imfile1.with_suffix('.npy').name, flow)
 
             images = list(reversed(images))
             print(f'Working on folder: {folder.name} in backward direction')
@@ -111,12 +106,7 @@ def generate_arflow_flow(args):
 
                 binary_weights = calculate_binary_flow_weights(image1, re_image1, args.thr_value, args.thr_type)
                 flow = flow * binary_weights[:,:,None]
-                if args.raw:
-                    np.save(flow_folder_reverse / imfile1.with_suffix('.npy').name, flow)
-                else:
-                    dx, dy = quantize_flow(flow, max_val=MAX_FLOW_VAL, norm=False)
-                    flow = np.stack([dx, dy, np.zeros(dx.shape)], axis=-1)
-                    cv2.imwrite((flow_folder_reverse / imfile1.name).as_posix(), flow[:, :, [2, 1, 0]])
+                np.save(flow_folder_reverse / imfile1.with_suffix('.npy').name, flow)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -124,7 +114,6 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', help="dataset for flow estimation")
     parser.add_argument('--step', type=int, default=1, help="flow step size")
     parser.add_argument('--test-shape', default=[384, 640], type=int, nargs=2)
-    parser.add_argument('--raw', action='store_true', help='generate raw optical flow')
     parser.add_argument('--thr_type', type=str, default='percentile')
     parser.add_argument('--thr_value', type=int, default=90)
     args = parser.parse_args()

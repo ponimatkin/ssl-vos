@@ -8,8 +8,7 @@ from PIL import Image
 from RAFT.core.raft import RAFT
 from RAFT.core.utils.utils import InputPadder
 
-from config import DATA_PATH, MAX_FLOW_VAL
-from utils.flow_utils import quantize_flow
+from config import DATA_PATH
 
 
 def load_image(imfile):
@@ -59,12 +58,7 @@ def generate_raft_flow(args):
 
                 _, flow = model(image1, image2, iters=20, test_mode=True)
                 flow = flow[0].permute(1, 2, 0).cpu().numpy()
-                if args.raw:
-                    np.save(flow_folder / imfile1.with_suffix('.npy').name, flow)
-                else:
-                    dx, dy = quantize_flow(flow, max_val=MAX_FLOW_VAL, norm=False)
-                    flow = np.stack([dx, dy, np.zeros(dx.shape)], axis=-1)
-                    cv2.imwrite((flow_folder / imfile1.name).as_posix(), flow[:, :, [2, 1, 0]])
+                np.save(flow_folder / imfile1.with_suffix('.npy').name, flow)
 
             images = list(reversed(images))
             print(f'Working on folder: {folder.name} in backward direction')
@@ -77,12 +71,7 @@ def generate_raft_flow(args):
 
                 _, flow = model(image1, image2, iters=20, test_mode=True)
                 flow = flow[0].permute(1, 2, 0).cpu().numpy()
-                if args.raw:
-                    np.save(flow_folder_reverse / imfile1.with_suffix('.npy').name, flow)
-                else:
-                    dx, dy = quantize_flow(flow, max_val=MAX_FLOW_VAL, norm=False)
-                    flow = np.stack([dx, dy, np.zeros(dx.shape)], axis=-1)
-                    cv2.imwrite((flow_folder_reverse / imfile1.name).as_posix(), flow[:, :, [2, 1, 0]])
+                np.save(flow_folder_reverse / imfile1.with_suffix('.npy').name, flow)
 
 
 if __name__ == '__main__':
@@ -90,7 +79,6 @@ if __name__ == '__main__':
     parser.add_argument('--model', help="restore checkpoint")
     parser.add_argument('--dataset', help="dataset for flow estimation")
     parser.add_argument('--step', type=int, default=1, help="flow step size")
-    parser.add_argument('--raw', action='store_true', help='generate raw optical flow')
     parser.add_argument('--small', action='store_true', help='use small model')
     parser.add_argument('--mixed_precision', action='store_true', help='use mixed precision')
     parser.add_argument('--alternate_corr', action='store_true', help='use efficent correlation implementation')
