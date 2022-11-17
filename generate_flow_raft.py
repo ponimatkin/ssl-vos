@@ -76,7 +76,7 @@ def generate_raft_flow(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', help="restore checkpoint")
+    parser.add_argument('--model', help="restore checkpoint", default="models/raft-sintel.pth")
     parser.add_argument('--dataset', help="dataset for flow estimation")
     parser.add_argument('--step', type=int, default=1, help="flow step size")
     parser.add_argument('--small', action='store_true', help='use small model')
