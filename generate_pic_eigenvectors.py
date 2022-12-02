@@ -14,9 +14,7 @@ def generate_pic_eigenvectors(args):
     features_path = DATA_PATH / args.dataset / args.features
     scale_factor = np.ceil(int(args.features.split('_')[-1]) / int(args.features.split('_')[-3])).astype(np.int32)
 
-    dino_masks = DATA_PATH / args.dataset / f'pic_masks_f{args.flow}_b{args.beta}_w{args.flow_weight}_s{scale_factor}'
     pic_eigenvectors = DATA_PATH / args.dataset / f'pic_eigenvectors_f{args.flow}_b{args.beta}_w{args.flow_weight}_s{scale_factor}'
-    dino_masks.mkdir(exist_ok=True)
     pic_eigenvectors.mkdir(exist_ok=True)
 
     (DATA_PATH / args.dataset / f'pic_config_f{args.flow}_b{args.beta}_w{args.flow_weight}_s{scale_factor}.yaml').write_text(yaml.dump(args))
@@ -29,9 +27,7 @@ def generate_pic_eigenvectors(args):
     for obj_class in sorted(features_path.iterdir()):
         print(f'Working on class: {obj_class.name}')
 
-        dino_masks_class = dino_masks / obj_class.name
         pic_eigenvectors_class = pic_eigenvectors / obj_class.name
-        dino_masks_class.mkdir(exist_ok=True)
         pic_eigenvectors_class.mkdir(exist_ok=True)
 
         n_features = len(list(obj_class.glob('*.*')))
